@@ -1,17 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Redirect } from 'expo-router';
 
-export default function IndexScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>National Parks Explorer</Text>
-    </View>
-  );
+export default function Index() {
+  return <Redirect href="/(tabs)/browse" />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
