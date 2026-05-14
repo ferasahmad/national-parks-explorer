@@ -4,12 +4,24 @@ import { Icon } from '../atoms/Icon';
 import { IconButton } from './IconButton';
 import { Colors } from '@/constants/theme';
 
-export function SearchBar() {
+export type SearchBarProps = {
+  value?: string;
+  onChangeText?: (text: string) => void;
+  onFilterPress?: () => void;
+  placeholder?: string;
+};
+
+export function SearchBar({ value, onChangeText, onFilterPress, placeholder = "Search parks, trails, or states" }: SearchBarProps) {
   return (
     <View style={styles.container}>
       <Icon name="search" size={20} color={Colors.light.icon} style={styles.icon} />
-      <Input style={styles.input} placeholder="Search parks, trails, or states" />
-      <IconButton name="options-outline" onPress={() => {}} />
+      <Input 
+        style={styles.input} 
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+      />
+      <IconButton name="options-outline" onPress={onFilterPress} />
     </View>
   );
 }
