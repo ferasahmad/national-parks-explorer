@@ -1,10 +1,10 @@
-import { View, StyleSheet, Pressable } from 'react-native';
-import { Image } from 'expo-image';
-import { Typography } from '../atoms/Typography';
-import { IconButton } from '../molecules/IconButton';
 import { type Park } from '@/api/types';
 import { Colors } from '@/constants/theme';
+import { Image } from 'expo-image';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Icon } from '../atoms/Icon';
+import { Typography } from '../atoms/Typography';
+import { IconButton } from '../molecules/IconButton';
 
 export type ParkCardProps = {
   park: Park;
@@ -39,15 +39,15 @@ export function ParkCard({ park, isSaved, onToggleSave, onPress }: ParkCardProps
       </View>
 
       <View style={styles.footer}>
-        <Typography variant="heading2" style={styles.title} numberOfLines={1}>
-          {park.fullName}
-        </Typography>
         <View style={styles.locationRow}>
           <Icon name="location-outline" size={14} color={Colors.onPrimary} />
           <Typography variant="caption" style={styles.locationText}>
             {park.states}
           </Typography>
         </View>
+        <Typography variant="heading2" style={styles.title} numberOfLines={2}>
+          {park.fullName}
+        </Typography>
       </View>
     </Pressable>
   );
