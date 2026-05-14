@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getParks } from '../api/nps';
-import { Park } from '../api/types';
+import { getParks } from '../../api/nps';
+import { Park } from '../../api/types';
 
 interface UseParksProps {
   search?: string;
