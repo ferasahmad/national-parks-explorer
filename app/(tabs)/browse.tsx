@@ -1,13 +1,39 @@
-import { Link } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+import { ParkCard } from '../../components/organisms/ParkCard';
+import { useParks } from '../../hooks/nps/use-parks';
+import { useSavedParksStorage } from '../../hooks/use-saved-parks-storage';
 
 export default function BrowseScreen() {
+  const { parks, isLoading } = useParks();
+  const { isSaved, toggleSave } = useSavedParksStorage();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Browse Parks</Text>
-      <Link href="/park/yellowstone" style={styles.link}>
-        View Yellowstone
-      </Link>
+      <FlatList
+        data={parks}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <ParkCard 
+            park={item}
+            isSaved={isSaved(item.parkCode)}
+            onToggleSave={() => toggleSave(item.parkCode)}
+            onPress={() => router.push(`/park/${item.id}`)}
+          />
+        )}
+        contentContainerStyle={styles.listContent}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        windowSize={5}
+        removeClippedSubviews={true}
+        ListEmptyComponent={
+          isLoading ? (
+            <View style={styles.centered}>
+              <ActivityIndicator size="large" />
+            </View>
+          ) : null
+        }
+      />
     </View>
   );
 }
@@ -15,16 +41,14 @@ export default function BrowseScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  centered: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    marginTop: 20,
-    fontSize: 16,
-    color: '#0a7ea4',
+  listContent: {
+    padding: 16,
+    flexGrow: 1,
   },
 });
