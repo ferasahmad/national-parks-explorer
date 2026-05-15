@@ -1,7 +1,7 @@
 import { type Park } from '@/api/types';
 import { Colors } from '@/constants/theme';
 import { Image } from 'expo-image';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import { Icon } from '../atoms/Icon';
 import { Typography } from '../atoms/Typography';
 import { IconButton } from '../molecules/IconButton';
@@ -15,6 +15,23 @@ export type ParkCardProps = {
 
 export function ParkCard({ park, isSaved, onToggleSave, onPress }: ParkCardProps) {
   const imageUrl = park.images?.[0]?.url;
+
+  const handleToggleSave = () => {
+    if (!onToggleSave) return;
+    
+    if (isSaved) {
+      Alert.alert(
+        "Remove from Saved",
+        `Are you sure you want to remove ${park.fullName} from your saved parks?`,
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Remove", style: "destructive", onPress: onToggleSave }
+        ]
+      );
+    } else {
+      onToggleSave();
+    }
+  };
 
   return (
     <Pressable style={styles.container} onPress={onPress}>
@@ -32,7 +49,7 @@ export function ParkCard({ park, isSaved, onToggleSave, onPress }: ParkCardProps
           <IconButton
             name={isSaved ? "heart" : "heart-outline"}
             color={isSaved ? "red" : Colors.onPrimary}
-            onPress={onToggleSave}
+            onPress={handleToggleSave}
             style={styles.favoriteButton}
           />
         )}
