@@ -1,5 +1,15 @@
-const API_KEY = 'DLePRuHlvNOL0Qn50UTyc1pOyZ6CB9FbnkhSB3hT';
 const BASE_URL = 'https://developer.nps.gov/api/v1';
+
+function requireApiKey(): string {
+  const key = process.env.EXPO_PUBLIC_NPS_API_KEY;
+  if (!key) {
+    throw new Error('Missing EXPO_PUBLIC_NPS_API_KEY environment variable.');
+  }
+
+  return key;
+}
+
+const API_KEY = requireApiKey();
 
 export async function fetchNPS<T>(
   endpoint: string,
