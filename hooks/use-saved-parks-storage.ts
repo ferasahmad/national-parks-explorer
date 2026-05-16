@@ -24,9 +24,9 @@ export function useSavedParksStorage() {
   const toggleSave = async (parkCode: string) => {
     try {
       const newSaved = savedParkCodes.includes(parkCode)
-        ? savedParkCodes.filter(c => c !== parkCode)
+        ? savedParkCodes.filter((c) => c !== parkCode)
         : [...savedParkCodes, parkCode];
-        
+
       setSavedParkCodes(newSaved);
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newSaved));
     } catch (e) {

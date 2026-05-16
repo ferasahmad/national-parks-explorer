@@ -7,13 +7,15 @@ export type IconButtonProps = PressableProps & {
   color?: string;
 };
 
-export function IconButton({ name, size = 24, color, ...rest }: IconButtonProps) {
+export function IconButton({
+  name,
+  size = 24,
+  color,
+  ...rest
+}: IconButtonProps) {
   return (
     <Pressable
-      style={({ pressed }) => [
-        styles.button,
-        { opacity: pressed ? 0.7 : 1 }
-      ]}
+      style={({ pressed }) => [styles.button, { opacity: pressed ? 0.7 : 1 }]}
       {...rest}
     >
       <Icon name={name} size={size} color={color} />

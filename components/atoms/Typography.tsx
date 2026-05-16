@@ -1,7 +1,12 @@
 import { Text, type TextProps, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/theme';
 
-export type TypographyVariant = 'heading1' | 'heading2' | 'subtitle' | 'body' | 'caption';
+export type TypographyVariant =
+  | 'heading1'
+  | 'heading2'
+  | 'subtitle'
+  | 'body'
+  | 'caption';
 
 export type TypographyProps = TextProps & {
   color?: string;
@@ -14,16 +19,7 @@ export function Typography({
   variant = 'body',
   ...rest
 }: TypographyProps) {
-  return (
-    <Text
-      style={[
-        { color },
-        styles[variant],
-        style,
-      ]}
-      {...rest}
-    />
-  );
+  return <Text style={[{ color }, styles[variant], style]} {...rest} />;
 }
 
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getParkByCode } from '../api/nps';
+import { getParkByCode } from '../../api/nps';
 
 export function useParkDetail(parkCode: string | undefined) {
   return useQuery({

@@ -1,5 +1,10 @@
 import { Colors } from '@/constants/theme';
-import { Pressable, StyleSheet, ViewStyle, type PressableProps } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  ViewStyle,
+  type PressableProps,
+} from 'react-native';
 import { Typography } from './Typography';
 
 export type ButtonProps = PressableProps & {
@@ -8,38 +13,44 @@ export type ButtonProps = PressableProps & {
   style?: ViewStyle;
 };
 
-export function Button({ title, variant = 'primary', style, disabled, ...rest }: ButtonProps) {
+export function Button({
+  title,
+  variant = 'primary',
+  style,
+  disabled,
+  ...rest
+}: ButtonProps) {
   const getBackgroundColor = () => {
     switch (variant) {
-      case 'primary': 
+      case 'primary':
         return Colors.primary;
-      case 'secondary': 
+      case 'secondary':
         return Colors.secondary;
-      case 'outline': 
+      case 'outline':
         return 'transparent';
-      default: 
+      default:
         return Colors.primary;
     }
   };
 
   const getTextColor = () => {
     switch (variant) {
-      case 'primary': 
+      case 'primary':
         return Colors.onPrimary;
-      case 'secondary': 
+      case 'secondary':
         return Colors.onSecondary;
-      case 'outline': 
+      case 'outline':
         return Colors.light.text;
-      default: 
+      default:
         return Colors.onPrimary;
     }
   };
 
   const getBorderColor = () => {
     switch (variant) {
-      case 'outline': 
+      case 'outline':
         return Colors.light.icon;
-      default: 
+      default:
         return 'transparent';
     }
   };
