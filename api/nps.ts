@@ -4,6 +4,7 @@ import { NPSResponse, Park } from './types';
 interface GetParksParams {
   q?: string;
   stateCode?: string;
+  parkCode?: string;
   start?: number;
   limit?: number;
 }
