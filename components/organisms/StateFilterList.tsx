@@ -12,7 +12,11 @@ export type StateFilterListProps = {
   onToggleState: (stateCode: string) => void;
 };
 
-export function StateFilterList({ states, selectedStates, onToggleState }: StateFilterListProps) {
+export function StateFilterList({
+  states,
+  selectedStates,
+  onToggleState,
+}: StateFilterListProps) {
   return (
     <FlatList
       data={states}

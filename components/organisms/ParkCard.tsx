@@ -13,20 +13,25 @@ export type ParkCardProps = {
   onPress?: () => void;
 };
 
-export function ParkCard({ park, isSaved, onToggleSave, onPress }: ParkCardProps) {
+export function ParkCard({
+  park,
+  isSaved,
+  onToggleSave,
+  onPress,
+}: ParkCardProps) {
   const imageUrl = park.images?.[0]?.url;
 
   const handleToggleSave = () => {
     if (!onToggleSave) return;
-    
+
     if (isSaved) {
       Alert.alert(
-        "Remove from Saved",
+        'Remove from Saved',
         `Are you sure you want to remove ${park.fullName} from your saved parks?`,
         [
-          { text: "Cancel", style: "cancel" },
-          { text: "Remove", style: "destructive", onPress: onToggleSave }
-        ]
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Remove', style: 'destructive', onPress: onToggleSave },
+        ],
       );
     } else {
       onToggleSave();
@@ -42,13 +47,13 @@ export function ParkCard({ park, isSaved, onToggleSave, onPress }: ParkCardProps
         transition={200}
       />
       <View style={styles.overlay} />
-      
+
       <View style={styles.header}>
         <View style={styles.spacer} />
         {onToggleSave && (
           <IconButton
-            name={isSaved ? "heart" : "heart-outline"}
-            color={isSaved ? "red" : Colors.onPrimary}
+            name={isSaved ? 'heart' : 'heart-outline'}
+            color={isSaved ? 'red' : Colors.onPrimary}
             onPress={handleToggleSave}
             style={styles.favoriteButton}
           />

@@ -11,12 +11,22 @@ export type SearchBarProps = {
   placeholder?: string;
 };
 
-export function SearchBar({ value, onChangeText, onFilterPress, placeholder = "Search parks, trails, or states" }: SearchBarProps) {
+export function SearchBar({
+  value,
+  onChangeText,
+  onFilterPress,
+  placeholder = 'Search parks, trails, or states',
+}: SearchBarProps) {
   return (
     <View style={styles.container}>
-      <Icon name="search" size={20} color={Colors.light.icon} style={styles.icon} />
-      <Input 
-        style={styles.input} 
+      <Icon
+        name="search"
+        size={20}
+        color={Colors.light.icon}
+        style={styles.icon}
+      />
+      <Input
+        style={styles.input}
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}

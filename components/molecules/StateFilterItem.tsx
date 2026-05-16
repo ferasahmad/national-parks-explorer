@@ -9,7 +9,11 @@ export type StateFilterItemProps = {
   onToggle: (checked: boolean) => void;
 };
 
-export function StateFilterItem({ stateName, checked, onToggle }: StateFilterItemProps) {
+export function StateFilterItem({
+  stateName,
+  checked,
+  onToggle,
+}: StateFilterItemProps) {
   return (
     <Pressable style={styles.container} onPress={() => onToggle(!checked)}>
       <Typography variant="body">{stateName}</Typography>

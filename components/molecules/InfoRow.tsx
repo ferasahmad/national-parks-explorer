@@ -9,8 +9,12 @@ export type InfoRowProps = {
 export function InfoRow({ label, value }: InfoRowProps) {
   return (
     <View style={styles.container}>
-      <Typography variant="body" style={styles.label}>{label}</Typography>
-      <Typography variant="body" style={styles.value}>{value}</Typography>
+      <Typography variant="body" style={styles.label}>
+        {label}
+      </Typography>
+      <Typography variant="body" style={styles.value}>
+        {value}
+      </Typography>
     </View>
   );
 }

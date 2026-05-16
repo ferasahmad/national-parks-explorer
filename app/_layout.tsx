@@ -1,5 +1,9 @@
 import { useColorScheme } from '@/hooks/theme/use-color-scheme';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -24,7 +28,7 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="park/[id]" options={{ title: 'Park Details'}} />
+          <Stack.Screen name="park/[id]" options={{ title: 'Park Details' }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

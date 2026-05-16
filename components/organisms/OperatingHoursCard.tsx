@@ -9,7 +9,9 @@ export type OperatingHoursCardProps = {
   operatingHours: OperatingHours[];
 };
 
-export function OperatingHoursCard({ operatingHours }: OperatingHoursCardProps) {
+export function OperatingHoursCard({
+  operatingHours,
+}: OperatingHoursCardProps) {
   if (!operatingHours || operatingHours.length === 0) return null;
 
   const hours = operatingHours[0].standardHours;
@@ -22,7 +24,7 @@ export function OperatingHoursCard({ operatingHours }: OperatingHoursCardProps) 
           Operating Hours
         </Typography>
       </View>
-      
+
       <View style={styles.content}>
         <InfoRow label="Monday" value={hours.monday} />
         <InfoRow label="Tuesday" value={hours.tuesday} />

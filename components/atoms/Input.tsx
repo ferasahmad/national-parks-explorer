@@ -10,11 +10,7 @@ export function Input({ style, ...rest }: InputProps) {
 
   return (
     <TextInput
-      style={[
-        styles.input,
-        { color, backgroundColor },
-        style,
-      ]}
+      style={[styles.input, { color, backgroundColor }, style]}
       placeholderTextColor={placeholderColor}
       {...rest}
     />

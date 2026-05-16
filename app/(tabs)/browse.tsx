@@ -14,7 +14,7 @@ export default function BrowseScreen() {
         data={parks}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <ParkCard 
+          <ParkCard
             park={item}
             isSaved={isSaved(item.parkCode)}
             onToggleSave={() => toggleSave(item.parkCode)}
