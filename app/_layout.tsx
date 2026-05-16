@@ -1,4 +1,5 @@
 import { useColorScheme } from '@/hooks/theme/use-color-scheme';
+import { SavedParksProvider } from '@/hooks/use-saved-parks-storage';
 import {
   DarkTheme,
   DefaultTheme,
@@ -25,13 +26,20 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="park/[id]" options={{ title: 'Park Details' }} />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
+      <SavedParksProvider>
+        <ThemeProvider
+          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        >
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="park/[id]"
+              options={{ title: 'Park Details' }}
+            />
+          </Stack>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </SavedParksProvider>
     </QueryClientProvider>
   );
 }
