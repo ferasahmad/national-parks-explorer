@@ -4,6 +4,7 @@ import { Typography } from '@/components/atoms/Typography';
 import { ActivityPill } from '@/components/molecules/ActivityPill';
 import { FeeCard } from '@/components/molecules/FeeCard';
 import { OperatingHoursCard } from '@/components/organisms/OperatingHoursCard';
+import { ParkImageCarousel } from '@/components/organisms/ParkImageCarousel';
 import { Colors } from '@/constants/theme';
 import { useParkDetail } from '@/hooks/nps/use-park-detail';
 import {
@@ -74,6 +75,7 @@ export default function ParkDetailScreen() {
 
   const hasActivities = park.activities && park.activities.length > 0;
   const hasFees = park.entranceFees && park.entranceFees.length > 0;
+  const hasImages = park.images && park.images.length > 0;
 
   return (
     <ScrollView
@@ -81,7 +83,24 @@ export default function ParkDetailScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <View style={styles.section}>
+      {hasImages && <ParkImageCarousel images={park.images} />}
+
+      <View style={styles.body}>
+        <View style={styles.parkHeader}>
+          <Typography variant="heading1">{park.fullName}</Typography>
+          <View style={styles.locationRow}>
+            <Icon
+              name="location-outline"
+              size={16}
+              color={Colors.onSurfaceVariant}
+            />
+            <Typography variant="body" color={Colors.onSurfaceVariant}>
+              {park.states}
+            </Typography>
+          </View>
+        </View>
+
+        <View style={styles.section}>
         <Typography variant="heading2" style={styles.sectionTitle}>
           Overview
         </Typography>
@@ -109,24 +128,30 @@ export default function ParkDetailScreen() {
 
       <OperatingHoursCard operatingHours={park.operatingHours} />
 
-      {hasFees && (
-        <View style={styles.feesSection}>
-          <View style={styles.cardHeader}>
-            <Icon name="cash-outline" size={20} color={Colors.light.text} />
-            <Typography variant="subtitle" style={styles.cardHeaderTitle}>
-              Entrance Fees
-            </Typography>
-          </View>
-          {park.entranceFees.map((fee, index) => (
+      <View style={styles.feesSection}>
+        <View style={styles.cardHeader}>
+          <Icon name="cash-outline" size={20} color={Colors.light.text} />
+          <Typography variant="subtitle" style={styles.cardHeaderTitle}>
+            Entrance Fees
+          </Typography>
+        </View>
+        {hasFees ? (
+          park.entranceFees.map((fee, index) => (
             <FeeCard
               key={`${fee.title}-${index}`}
               title={fee.title}
               price={formatEntranceFee(fee.cost)}
               description={fee.description}
             />
-          ))}
-        </View>
-      )}
+          ))
+        ) : (
+          <Typography variant="body" color={Colors.onSurfaceVariant}>
+            Entrance fee information is not available. Check the park website
+            before you visit.
+          </Typography>
+        )}
+      </View>
+      </View>
     </ScrollView>
   );
 }
@@ -137,8 +162,20 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   content: {
-    padding: 20,
     paddingBottom: 32,
+  },
+  body: {
+    paddingHorizontal: 20,
+  },
+  parkHeader: {
+    marginBottom: 24,
+    marginTop: 16,
+  },
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+    gap: 4,
   },
   section: {
     marginBottom: 24,
