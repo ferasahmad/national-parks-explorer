@@ -7,19 +7,11 @@ import { OperatingHoursCard } from '@/components/organisms/OperatingHoursCard';
 import { ParkImageCarousel } from '@/components/organisms/ParkImageCarousel';
 import { Colors } from '@/constants/theme';
 import { useParkDetail } from '@/hooks/nps/use-park-detail';
-import {
-  formatEntranceFee,
-  getActivityIcon,
-} from '@/utils/activity-icons';
+import { formatEntranceFee, getActivityIcon } from '@/utils/activity-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
-import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
 function normalizeParam(
   value: string | string[] | undefined,
@@ -101,56 +93,56 @@ export default function ParkDetailScreen() {
         </View>
 
         <View style={styles.section}>
-        <Typography variant="heading2" style={styles.sectionTitle}>
-          Overview
-        </Typography>
-        <Typography variant="body" color={Colors.onSurfaceVariant}>
-          {park.description}
-        </Typography>
-      </View>
-
-      {hasActivities && (
-        <View style={styles.section}>
           <Typography variant="heading2" style={styles.sectionTitle}>
-            Popular Activities
+            Overview
           </Typography>
-          <View style={styles.activities}>
-            {park.activities.map((activity) => (
-              <ActivityPill
-                key={activity.id}
-                label={activity.name}
-                iconName={getActivityIcon(activity.name)}
-              />
-            ))}
-          </View>
-        </View>
-      )}
-
-      <OperatingHoursCard operatingHours={park.operatingHours} />
-
-      <View style={styles.feesSection}>
-        <View style={styles.cardHeader}>
-          <Icon name="cash-outline" size={20} color={Colors.light.text} />
-          <Typography variant="subtitle" style={styles.cardHeaderTitle}>
-            Entrance Fees
-          </Typography>
-        </View>
-        {hasFees ? (
-          park.entranceFees.map((fee, index) => (
-            <FeeCard
-              key={`${fee.title}-${index}`}
-              title={fee.title}
-              price={formatEntranceFee(fee.cost)}
-              description={fee.description}
-            />
-          ))
-        ) : (
           <Typography variant="body" color={Colors.onSurfaceVariant}>
-            Entrance fee information is not available. Check the park website
-            before you visit.
+            {park.description}
           </Typography>
+        </View>
+
+        {hasActivities && (
+          <View style={styles.section}>
+            <Typography variant="heading2" style={styles.sectionTitle}>
+              Activities
+            </Typography>
+            <View style={styles.activities}>
+              {park.activities.map((activity) => (
+                <ActivityPill
+                  key={activity.id}
+                  label={activity.name}
+                  iconName={getActivityIcon(activity.name)}
+                />
+              ))}
+            </View>
+          </View>
         )}
-      </View>
+
+        <OperatingHoursCard operatingHours={park.operatingHours} />
+
+        <View style={styles.feesSection}>
+          <View style={styles.cardHeader}>
+            <Icon name="cash-outline" size={20} color={Colors.light.text} />
+            <Typography variant="subtitle" style={styles.cardHeaderTitle}>
+              Entrance Fees
+            </Typography>
+          </View>
+          {hasFees ? (
+            park.entranceFees.map((fee, index) => (
+              <FeeCard
+                key={`${fee.title}-${index}`}
+                title={fee.title}
+                price={formatEntranceFee(fee.cost)}
+                description={fee.description}
+              />
+            ))
+          ) : (
+            <Typography variant="body" color={Colors.onSurfaceVariant}>
+              Entrance fee information is not available. Check the park website
+              before you visit.
+            </Typography>
+          )}
+        </View>
       </View>
     </ScrollView>
   );
