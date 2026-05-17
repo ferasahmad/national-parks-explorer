@@ -52,14 +52,13 @@ export function SavedParksProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const isSaved = useCallback(
-    (parkCode: string) => savedParkCodes.includes(parkCode),
-    [savedParkCodes],
-  );
-
   const value = useMemo(
-    () => ({ savedParkCodes, toggleSave, isSaved }),
-    [savedParkCodes, toggleSave, isSaved],
+    () => ({
+      savedParkCodes,
+      toggleSave,
+      isSaved: (parkCode: string) => savedParkCodes.includes(parkCode),
+    }),
+    [savedParkCodes, toggleSave],
   );
 
   return (

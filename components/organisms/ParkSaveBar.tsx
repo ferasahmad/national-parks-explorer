@@ -4,7 +4,6 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export type ParkSaveBarProps = {
-  parkCode: string;
   parkName: string;
   isSaved: boolean;
   onToggleSave: () => void;

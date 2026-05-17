@@ -12,8 +12,7 @@ export type OperatingHoursCardProps = {
 export function OperatingHoursCard({
   operatingHours,
 }: OperatingHoursCardProps) {
-  const hasHours = operatingHours && operatingHours.length > 0;
-  const hours = hasHours ? operatingHours[0].standardHours : null;
+  const hours = operatingHours?.[0]?.standardHours ?? null;
 
   return (
     <View style={styles.container}>
