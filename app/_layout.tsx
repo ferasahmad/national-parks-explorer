@@ -33,7 +33,7 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
-              name="park/[id]"
+              name="park/[parkCode]"
               options={{ title: 'Park Details' }}
             />
           </Stack>

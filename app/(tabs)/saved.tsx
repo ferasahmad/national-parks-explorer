@@ -34,7 +34,7 @@ export default function SavedScreen() {
             park={item}
             isSaved={isSaved(item.parkCode)}
             onToggleSave={() => toggleSave(item.parkCode)}
-            onPress={() => router.push(`/park/${item.id}`)}
+            onPress={() => router.push(`/park/${item.parkCode}`)}
           />
         )}
         contentContainerStyle={styles.listContent}
