@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getParkByCode } from '../../api/nps';
 
 export function useParkDetail(parkCode: string | undefined) {
-  return useQuery({
+  const query = useQuery({
     queryKey: ['park', parkCode],
     queryFn: () => {
       if (!parkCode) {
@@ -13,4 +13,9 @@ export function useParkDetail(parkCode: string | undefined) {
     },
     enabled: !!parkCode,
   });
+
+  return {
+    ...query,
+    park: query.data,
+  };
 }
