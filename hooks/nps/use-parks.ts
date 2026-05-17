@@ -23,6 +23,7 @@ export function useParks({
         stateCode: stateCode,
         parkCode,
         start: 0,
+        limit: 1000,
       });
     },
     enabled,
