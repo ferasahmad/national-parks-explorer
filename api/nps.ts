@@ -27,14 +27,3 @@ export async function getParkByCode(parkCode: string): Promise<Park> {
 
   return response.data[0];
 }
-
-export async function getParksByCodes(parkCodes: string[]): Promise<Park[]> {
-  if (!parkCodes || parkCodes.length === 0) {
-    return [];
-  }
-
-  const response = await fetchNPS<NPSResponse<Park>>('/parks', {
-    parkCode: parkCodes.join(','),
-  });
-  return response.data;
-}
