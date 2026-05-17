@@ -24,9 +24,11 @@ function getNoResultsMessage(
   if (hasSearch && hasStates) {
     return 'No parks match your search and state filters.';
   }
+
   if (hasSearch) {
     return `No parks match "${searchQuery.trim()}"`;
   }
+
   return 'No parks match the selected states.';
 }
 
@@ -48,7 +50,10 @@ export default function BrowseScreen() {
     searchQuery.trim().length > 0 || selectedStateCodes.length > 0;
 
   const showNoResults =
-    !isLoading && parks.length > 0 && filteredParks.length === 0 && hasActiveFilters;
+    !isLoading &&
+    parks.length > 0 &&
+    filteredParks.length === 0 &&
+    hasActiveFilters;
 
   const handleToggleState = (stateCode: string) => {
     setSelectedStateCodes((current) =>
@@ -60,6 +65,14 @@ export default function BrowseScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.searchBar}>
+        <SearchBar
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          onFilterPress={() => setFilterVisible(true)}
+        />
+      </View>
+
       <FlatList
         data={filteredParks}
         keyExtractor={(item) => item.id}
@@ -72,15 +85,6 @@ export default function BrowseScreen() {
           />
         )}
         contentContainerStyle={styles.listContent}
-        ListHeaderComponent={
-          <View style={styles.searchBar}>
-            <SearchBar
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              onFilterPress={() => setFilterVisible(true)}
-            />
-          </View>
-        }
         ListEmptyComponent={
           isLoading ? (
             <View style={styles.centered}>
@@ -118,10 +122,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   listContent: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
     flexGrow: 1,
   },
   searchBar: {
+    padding: 16,
+    paddingBottom: 0,
     marginBottom: 16,
   },
 });
