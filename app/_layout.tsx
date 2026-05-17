@@ -34,7 +34,10 @@ export default function RootLayout() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
               name="park/[parkCode]"
-              options={{ title: 'Park Details' }}
+              options={{
+                title: 'Park Details',
+                headerBackButtonDisplayMode: 'minimal',
+              }}
             />
           </Stack>
           <StatusBar style="auto" />
