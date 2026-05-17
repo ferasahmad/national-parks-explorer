@@ -62,7 +62,7 @@ The whole parks list is fetched upfront because the dataset is relatively small 
 
 ### Things I'd improve with more time
 
-- **Pagination / infinite scroll.** Right now the Browse page fetches the whole state parks list at once, mainly because there are around 500 state park. If that wasn't the case I'd add `useInfiniteQuery` with `start`/`limit` and an `onEndReached` handler. The current `FlatList` setup is ready for it.
+- **Pagination / infinite scroll.** Right now the Browse page fetches the whole state parks list at once, mainly because there are around 500 state park. If that wasn't the case I'd add `useInfiniteQuery` with `start`/`limit` and an `onEndReached` to handle larger datasets. The current `FlatList` setup is ready for it.
 - **Server-side search and state filter.** I'm filtering the first page in memory for snappier feedback while typing. For a real catalog I'd debounce the input and push `q` / `stateCode` into the query key so results come from the API.
 - **Memoize `ParkCard` and its callbacks.** The card is cheap, but wrapping it in `React.memo` and stabilizing `onPress` / `onToggleSave` with `useCallback` keyed by `parkCode` would eliminate re-renders on search keystrokes.
 - **Image sizing.** I'd pass smaller NPS image variants (or use `expo-image`'s `recyclingKey` + explicit dimensions) for list thumbnails instead of reusing the hero URL.
