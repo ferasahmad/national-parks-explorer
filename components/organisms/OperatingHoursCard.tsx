@@ -12,9 +12,8 @@ export type OperatingHoursCardProps = {
 export function OperatingHoursCard({
   operatingHours,
 }: OperatingHoursCardProps) {
-  if (!operatingHours || operatingHours.length === 0) return null;
-
-  const hours = operatingHours[0].standardHours;
+  const hasHours = operatingHours && operatingHours.length > 0;
+  const hours = hasHours ? operatingHours[0].standardHours : null;
 
   return (
     <View style={styles.container}>
@@ -25,15 +24,22 @@ export function OperatingHoursCard({
         </Typography>
       </View>
 
-      <View style={styles.content}>
-        <InfoRow label="Monday" value={hours.monday} />
-        <InfoRow label="Tuesday" value={hours.tuesday} />
-        <InfoRow label="Wednesday" value={hours.wednesday} />
-        <InfoRow label="Thursday" value={hours.thursday} />
-        <InfoRow label="Friday" value={hours.friday} />
-        <InfoRow label="Saturday" value={hours.saturday} />
-        <InfoRow label="Sunday" value={hours.sunday} />
-      </View>
+      {hours ? (
+        <View style={styles.content}>
+          <InfoRow label="Monday" value={hours.monday} />
+          <InfoRow label="Tuesday" value={hours.tuesday} />
+          <InfoRow label="Wednesday" value={hours.wednesday} />
+          <InfoRow label="Thursday" value={hours.thursday} />
+          <InfoRow label="Friday" value={hours.friday} />
+          <InfoRow label="Saturday" value={hours.saturday} />
+          <InfoRow label="Sunday" value={hours.sunday} />
+        </View>
+      ) : (
+        <Typography variant="body" color={Colors.onSurfaceVariant}>
+          Operating hours are not available. Check the park website for current
+          hours.
+        </Typography>
+      )}
     </View>
   );
 }

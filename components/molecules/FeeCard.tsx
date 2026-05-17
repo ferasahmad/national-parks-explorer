@@ -1,6 +1,6 @@
-import { View, StyleSheet } from 'react-native';
-import { Typography } from '../atoms/Typography';
 import { Colors } from '@/constants/theme';
+import { StyleSheet, View } from 'react-native';
+import { Typography } from '../atoms/Typography';
 
 export type FeeCardProps = {
   title: string;
@@ -11,10 +11,10 @@ export type FeeCardProps = {
 export function FeeCard({ title, price, description }: FeeCardProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
-        <Typography variant="subtitle">{title}</Typography>
-        <Typography variant="subtitle">{price}</Typography>
-      </View>
+      <Typography variant="heading2">{title}</Typography>
+      <Typography variant="subtitle" style={styles.price}>
+        {price}
+      </Typography>
       <Typography variant="caption" style={styles.description}>
         {description}
       </Typography>
@@ -29,11 +29,10 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 12,
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  price: {
+    marginTop: 4,
     marginBottom: 4,
+    color: '#666',
   },
   description: {
     color: '#666',
