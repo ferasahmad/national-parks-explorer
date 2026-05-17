@@ -153,7 +153,6 @@ export default function ParkDetailScreen() {
       </ScrollView>
 
       <ParkSaveBar
-        parkCode={park.parkCode}
         parkName={park.fullName}
         isSaved={saved}
         onToggleSave={() => toggleSave(park.parkCode)}
