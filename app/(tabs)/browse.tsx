@@ -76,6 +76,10 @@ export default function BrowseScreen() {
       <FlatList
         data={filteredParks}
         keyExtractor={(item) => item.id}
+        keyboardShouldPersistTaps="handled"
+        initialNumToRender={8}
+        maxToRenderPerBatch={8}
+        windowSize={5}
         renderItem={({ item }) => (
           <ParkCard
             park={item}
