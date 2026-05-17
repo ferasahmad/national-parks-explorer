@@ -5,13 +5,16 @@ import { ActivityPill } from '@/components/molecules/ActivityPill';
 import { FeeCard } from '@/components/molecules/FeeCard';
 import { OperatingHoursCard } from '@/components/organisms/OperatingHoursCard';
 import { ParkImageCarousel } from '@/components/organisms/ParkImageCarousel';
+import { ParkSaveBar } from '@/components/organisms/ParkSaveBar';
 import { Colors } from '@/constants/theme';
 import { useParkDetail } from '@/hooks/nps/use-park-detail';
+import { useSavedParksStorage } from '@/hooks/use-saved-parks-storage';
 import { formatEntranceFee, getActivityIcon } from '@/utils/activity-icons';
-import { useNavigation } from '@react-navigation/native';
 import { useLocalSearchParams } from 'expo-router';
-import { useEffect } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const SAVE_BAR_HEIGHT = 72;
 
 function normalizeParam(
   value: string | string[] | undefined,
@@ -27,14 +30,12 @@ export default function ParkDetailScreen() {
     parkCode: string;
   }>();
   const parkCode = normalizeParam(parkCodeParam);
-  const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const { park, isLoading, isError, error, refetch } = useParkDetail(parkCode);
+  const { isSaved, toggleSave } = useSavedParksStorage();
 
-  useEffect(() => {
-    if (park?.fullName) {
-      navigation.setOptions({ title: park.fullName });
-    }
-  }, [park?.fullName, navigation]);
+  const scrollBottomPadding =
+    SAVE_BAR_HEIGHT + Math.max(insets.bottom, 16) + 16;
 
   if (isLoading) {
     return (
@@ -68,93 +69,109 @@ export default function ParkDetailScreen() {
   const hasActivities = park.activities && park.activities.length > 0;
   const hasFees = park.entranceFees && park.entranceFees.length > 0;
   const hasImages = park.images && park.images.length > 0;
+  const saved = isSaved(park.parkCode);
 
   return (
-    <ScrollView
-      style={styles.scroll}
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
-      {hasImages && <ParkImageCarousel images={park.images} />}
+    <View style={styles.screen}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[
+          styles.content,
+          { paddingBottom: scrollBottomPadding },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
+        {hasImages && <ParkImageCarousel images={park.images} />}
 
-      <View style={styles.body}>
-        <View style={styles.parkHeader}>
-          <Typography variant="heading1">{park.fullName}</Typography>
-          <View style={styles.locationRow}>
-            <Icon
-              name="location-outline"
-              size={16}
-              color={Colors.onSurfaceVariant}
-            />
-            <Typography variant="body" color={Colors.onSurfaceVariant}>
-              {park.states}
-            </Typography>
-          </View>
-        </View>
-
-        <View style={styles.section}>
-          <Typography variant="heading2" style={styles.sectionTitle}>
-            Overview
-          </Typography>
-          <Typography variant="body" color={Colors.onSurfaceVariant}>
-            {park.description}
-          </Typography>
-        </View>
-
-        {hasActivities && (
-          <View style={styles.section}>
-            <Typography variant="heading2" style={styles.sectionTitle}>
-              Activities
-            </Typography>
-            <View style={styles.activities}>
-              {park.activities.map((activity) => (
-                <ActivityPill
-                  key={activity.id}
-                  label={activity.name}
-                  iconName={getActivityIcon(activity.name)}
-                />
-              ))}
+        <View style={styles.body}>
+          <View style={styles.parkHeader}>
+            <Typography variant="heading1">{park.fullName}</Typography>
+            <View style={styles.locationRow}>
+              <Icon
+                name="location-outline"
+                size={16}
+                color={Colors.onSurfaceVariant}
+              />
+              <Typography variant="body" color={Colors.onSurfaceVariant}>
+                {park.states}
+              </Typography>
             </View>
           </View>
-        )}
 
-        <OperatingHoursCard operatingHours={park.operatingHours} />
-
-        <View style={styles.feesSection}>
-          <View style={styles.cardHeader}>
-            <Icon name="cash-outline" size={20} color={Colors.light.text} />
-            <Typography variant="subtitle" style={styles.cardHeaderTitle}>
-              Entrance Fees
+          <View style={styles.section}>
+            <Typography variant="heading2" style={styles.sectionTitle}>
+              Overview
+            </Typography>
+            <Typography variant="body" color={Colors.onSurfaceVariant}>
+              {park.description}
             </Typography>
           </View>
-          {hasFees ? (
-            park.entranceFees.map((fee, index) => (
-              <FeeCard
-                key={`${fee.title}-${index}`}
-                title={fee.title}
-                price={formatEntranceFee(fee.cost)}
-                description={fee.description}
-              />
-            ))
-          ) : (
-            <Typography variant="body" color={Colors.onSurfaceVariant}>
-              Entrance fee information is not available. Check the park website
-              before you visit.
-            </Typography>
+
+          {hasActivities && (
+            <View style={styles.section}>
+              <Typography variant="heading2" style={styles.sectionTitle}>
+                Activities
+              </Typography>
+              <View style={styles.activities}>
+                {park.activities.map((activity) => (
+                  <ActivityPill
+                    key={activity.id}
+                    label={activity.name}
+                    iconName={getActivityIcon(activity.name)}
+                  />
+                ))}
+              </View>
+            </View>
           )}
+
+          <OperatingHoursCard operatingHours={park.operatingHours} />
+
+          <View style={styles.feesSection}>
+            <View style={styles.cardHeader}>
+              <Icon name="cash-outline" size={20} color={Colors.light.text} />
+              <Typography variant="subtitle" style={styles.cardHeaderTitle}>
+                Entrance Fees
+              </Typography>
+            </View>
+            {hasFees ? (
+              park.entranceFees.map((fee, index) => (
+                <FeeCard
+                  key={`${fee.title}-${index}`}
+                  title={fee.title}
+                  price={formatEntranceFee(fee.cost)}
+                  description={fee.description}
+                />
+              ))
+            ) : (
+              <Typography variant="body" color={Colors.onSurfaceVariant}>
+                Entrance fee information is not available. Check the park
+                website before you visit.
+              </Typography>
+            )}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+
+      <ParkSaveBar
+        parkCode={park.parkCode}
+        parkName={park.fullName}
+        isSaved={saved}
+        onToggleSave={() => toggleSave(park.parkCode)}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: {
+  screen: {
     flex: 1,
     backgroundColor: Colors.background,
   },
+  scroll: {
+    flex: 1,
+  },
   content: {
-    paddingBottom: 32,
+    flexGrow: 1,
   },
   body: {
     paddingHorizontal: 20,
@@ -198,6 +215,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
+    backgroundColor: Colors.background,
   },
   errorText: {
     textAlign: 'center',
