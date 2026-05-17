@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { Typography } from '../../components/atoms/Typography';
 import { SearchBar } from '../../components/molecules/SearchBar';
@@ -27,10 +27,7 @@ function getNoResultsMessage(
   if (hasSearch) {
     return `No parks match "${searchQuery.trim()}"`;
   }
-  if (hasStates) {
-    return 'No parks match the selected states.';
-  }
-  return 'No parks found.';
+  return 'No parks match the selected states.';
 }
 
 export default function BrowseScreen() {
@@ -40,7 +37,7 @@ export default function BrowseScreen() {
   const { parks, isLoading } = useParks();
   const { isSaved, toggleSave } = useSavedParksStorage();
 
-  const statesForFilter = useMemo(() => getStatesForFilter(parks), [parks]);
+  const statesForFilter = getStatesForFilter(parks);
 
   const filteredParks = filterParksBySearch(
     filterParksByState(parks, selectedStateCodes),
@@ -75,10 +72,6 @@ export default function BrowseScreen() {
           />
         )}
         contentContainerStyle={styles.listContent}
-        initialNumToRender={10}
-        maxToRenderPerBatch={10}
-        windowSize={5}
-        removeClippedSubviews={true}
         ListHeaderComponent={
           <View style={styles.searchBar}>
             <SearchBar
